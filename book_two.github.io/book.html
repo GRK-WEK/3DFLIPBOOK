@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D FlipBook - Cloud Edition</title>
+    <link rel="stylesheet" href="book.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fas fa-book-open"></i>
+                <h2>3D FlipBook</h2>
+                <p>Sign in to save your work to the cloud</p>
+            </div>
+            <div id="login-step" class="auth-step">
+                <form id="login-form">
+                    <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="login-email"
+                            placeholder="Email address" required></div>
+                    <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="login-password"
+                            placeholder="Password" required></div>
+                    <button type="submit" class="auth-btn">Sign In</button>
+                </form>
+                <p class="auth-switch">Don't have an account? <a href="#" id="show-signup-link">Create one</a></p>
+            </div>
+            <div id="signup-step" class="auth-step" style="display: none;">
+                <form id="signup-form">
+                    <div class="input-group"><i class="fas fa-user"></i><input type="text" id="signup-name"
+                            placeholder="Full name" required></div>
+                    <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="signup-email"
+                            placeholder="Email address" required></div>
+                    <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="signup-password"
+                            placeholder="Password (min. 6 characters)" required></div>
+                    <button type="submit" class="auth-btn">Create Account</button>
+                </form>
+                <p class="auth-switch">Already have an account? <a href="#" id="show-login-link">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-content" style="display: none;">
+        <div class="word-toolbar">
+            <div class="tool-group">
+                <button id="newBtn" title="New Book"><i class="fas fa-file"></i> New</button>
+                <button id="saveBtn" title="Save Book"><i class="fas fa-save"></i> Save</button>
+                <button id="loadBtn" title="Load Book"><i class="fas fa-folder-open"></i> Load</button>
+                <button id="exportBtn" title="Export as TXT"><i class="fas fa-download"></i> Export</button>
+                <button id="printBtn" title="Print Book"><i class="fas fa-print"></i> Print</button>
+                <button id="exportPdfBtn" title="Export as PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button id="exportWordBtn" title="Export as Word"><i class="fas fa-file-word"></i> Word</button>
+            </div>
+            <div class="tool-group">
+                <select id="fontFamilySelect">
+                    <option value="Georgia">Georgia</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+                <select id="fontSizeSelect">
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16" selected>16</option>
+                    <option value="18">18</option>
+                    <option value="20">20</option>
+                    <option value="24">24</option>
+                </select>
+            </div>
+            <div class="tool-group">
+                <button id="boldBtn" title="Bold"><i class="fas fa-bold"></i></button>
+                <button id="italicBtn" title="Italic"><i class="fas fa-italic"></i></button>
+                <button id="underlineBtn" title="Underline"><i class="fas fa-underline"></i></button>
+                <button id="alignLeftBtn" title="Align Left"><i class="fas fa-align-left"></i></button>
+                <button id="alignCenterBtn" title="Center"><i class="fas fa-align-center"></i></button>
+                <button id="alignRightBtn" title="Align Right"><i class="fas fa-align-right"></i></button>
+            </div>
+            <div class="tool-group">
+                <input type="color" id="textColorPicker" value="#2c2418" title="Text Color">
+                <input type="color" id="bgColorPicker" value="#fffef5" title="Background Color">
+                <span class="tool-label">Text/BG</span>
+            </div>
+            <div class="tool-group">
+                <span class="tool-label"><i class="fas fa-palette"></i> Cover:</span>
+                <select id="coverDesignSelect">
+                    <option value="emerald" selected>Classic Emerald</option>
+                    <option value="royal">Royal Velvet</option>
+                    <option value="midnight">Midnight Gold</option>
+                    <option value="vintage">Vintage Leather</option>
+                </select>
+            </div>
+            <div class="tool-group">
+                <button id="addPageBtn" title="Add Page"><i class="fas fa-plus-circle"></i> Page</button>
+                <button id="delPageBtn" title="Delete Current Page"><i class="fas fa-trash"></i> Delete</button>
+                <button id="wordCountBtn" title="Statistics Dashboard"><i class="fas fa-chart-simple"></i> Stats</button>
+                <button id="pageManagerBtn" title="Page Manager (Shredder)"><i class="fas fa-layer-group"></i> Pages</button>
+            </div>
+            <div class="tool-group">
+                <button id="insertImageBtn" title="Insert Image"><i class="fas fa-image"></i> Image</button>
+                <button id="insertVideoBtn" title="Insert Video"><i class="fas fa-video"></i> Video</button>
+                <button id="insertChartBtn" title="Insert Chart"><i class="fas fa-chart-line"></i> Chart</button>
+                <button id="openDrawingBtn" title="Drawing Tools"><i class="fas fa-paintbrush"></i> Draw</button>
+            </div>
+            <div class="tool-group">
+                <select id="languageSelect">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="es">🇪🇸 Español</option>
+                </select>
+                <button id="logoutBtn" class="logout-toolbar" title="Sign Out"><i class="fas fa-sign-out-alt"></i> Exit</button>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="nav-logo"><i class="fas fa-book-open"></i> 3D FlipBook</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#" class="nav-link">Files</a>
+                        <div class="dropdown-content">
+                            <a href="#" id="newBookNav">New Book</a>
+                            <a href="#" id="saveBookNav">Save Book</a>
+                            <a href="#" id="loadBookNav">Load Book</a>
+                            <a href="#" id="exportTxtNav">Export TXT</a>
+                            <a href="#" id="printBookNav">Print</a>
+                            <a href="#" id="exportPdfNav">PDF</a>
+                            <a href="#" id="exportWordNav">Word</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link">Tools</a>
+                        <div class="dropdown-content">
+                            <a href="#" id="addPageNav">Add Page</a>
+                            <a href="#" id="deletePageNav">Delete Page</a>
+                            <a href="#" id="wordCountNav">Statistics</a>
+                            <a href="#" id="pageManagerNav">Page Manager</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link">Media</a>
+                        <div class="dropdown-content">
+                            <a href="#" id="mediaImageNav">Insert Image</a>
+                            <a href="#" id="mediaVideoNav">Insert Video</a>
+                            <a href="#" id="mediaChartNav">Insert Chart</a>
+                            <a href="#" id="mediaDrawNav">Drawing Tools</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link">Legal</a>
+                        <div class="dropdown-content">
+                            <a href="#" id="privacyPolicyBtn">Privacy Policy</a>
+                            <a href="#" id="termsOfUseBtn">Terms of Use</a>
+                            <a href="#" id="privacySettingsBtn">Privacy Settings</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link">Share</a>
+                        <div class="dropdown-content">
+                            <a href="#" id="shareReddit">Reddit</a>
+                            <a href="#" id="shareQuora">Quora</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="nav-user">
+                    <img id="user-avatar-small" class="avatar-small"
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle fill='%23e4b363' cx='16' cy='16' r='16'/%3E%3Ctext fill='white' x='16' y='20' text-anchor='middle' font-size='14' font-family='Arial'%3E?%3C/text%3E%3C/svg%3E"
+                        alt="avatar">
+                    <span id="greetingText">Guest</span>
+                </div>
+            </div>
+        </nav>
+<div class="book-wrapper">
+    <div id="book" class="book design-emerald">
+        
+        <div id="coverLeft" class="book-cover cover-front">
+            <div class="cover-skin">
+                <i class="fas fa-bookmark spine-ribbon"></i>
+                <h1 id="sidebarBookTitle">Dreamer's Log</h1>
+                <p class="cover-subtitle">A Creative Journey</p>
+                <div class="gold-emboss"></div>
+            </div>
+            <div class="cover-inside-left"></div>
+        </div>
+
+        <div id="coverRight" class="book-cover cover-back">
+            <div class="cover-inside-right"></div>
+            <div class="cover-skin">
+                <h2>3D FlipBook</h2>
+                <p>Cloud Edition Pro</p>
+                <div class="isbn">© 2026 3D FlipBook</div>
+                <div class="gold-emboss"></div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+        <div class="controls">
+            <button id="prevBtn" class="ctrl-btn"><i class="fas fa-chevron-left"></i> Previous</button>
+            <div class="page-indicator"><span id="currentPage">1</span> / <span id="totalPages">1</span></div>
+            <button id="nextBtn" class="ctrl-btn">Next <i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <div id="drawingModal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3><i class="fas fa-paintbrush"></i> Drawing Canvas</h3><button
+                        class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="drawing-tools"><label>Brush Color: <input type="color" id="drawColor"
+                                value="#d4af37"></label><label>Brush Size: <input type="range" id="drawSize" min="2"
+                                max="30" value="4"></label><button id="clearCanvasBtn"
+                            class="modal-btn-small">Clear</button><button id="insertDrawingBtn"
+                            class="modal-btn-small">Insert Drawing</button></div><canvas id="drawCanvas" width="500"
+                        height="300"
+                        style="border:2px solid #e4b363; border-radius:12px; background:white; cursor:crosshair;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="mediaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="mediaModalTitle">Insert Media</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body"><input type="file" id="mediaFile"><button id="confirmMediaBtn"
+                        class="modal-btn">Insert</button></div>
+            </div>
+        </div>
+
+        <div id="chartModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Insert Chart</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body"><select id="chartTypeSelect">
+                        <option value="bar">Bar Chart</option>
+                        <option value="line">Line Chart</option>
+                        <option value="pie">Pie Chart</option>
+                        <option value="doughnut">Doughnut Chart</option>
+                    </select><input type="text" id="chartDataInput" placeholder="Data: 10,20,30,40"><input type="text"
+                        id="chartLabelsInput" placeholder="Labels: A,B,C,D"><button id="insertChartConfirm"
+                        class="modal-btn">Insert Chart</button></div>
+            </div>
+        </div>
+
+        <div id="privacyModal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3>Privacy Policy</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Your data is stored locally in IndexedDB and also in Supabase cloud (when signed in). We do not
+                        share your data.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="termsModal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3>Terms of Use</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Personal use only. You own your content.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="settingsModal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3>Privacy Settings</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Manage your data preferences.</p><button id="resetAllData" class="modal-btn"
+                        style="background:#c0392b;">Reset All Data</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="saveModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Save Book</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body"><input type="text" id="saveName" placeholder="Book name"><button
+                        id="confirmSave" class="modal-btn">Save</button></div>
+            </div>
+        </div>
+
+        <div id="loadModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Load Book</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body"><select id="loadList" size="4"></select><button id="confirmLoad"
+                        class="modal-btn">Load</button></div>
+            </div>
+        </div>
+
+        <div id="messageModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-info-circle"></i> <span id="messageTitle">Information</span></h3><button
+                        class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="messageText"></p><button id="messageOkBtn" class="modal-btn">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-question-circle"></i> <span id="confirmTitle">Confirm</span></h3><button
+                        class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmText"></p>
+                    <div style="display:flex; gap:10px; justify-content:center;"><button id="confirmYesBtn"
+                            class="modal-btn">Yes</button><button id="confirmNoBtn" class="modal-btn"
+                            style="background:#7f8c8d;">No</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pageManagerModal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3>Page Manager (Shredder)</h3><button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="pageList"></div><button id="deleteSelectedPagesBtn" class="modal-btn"
+                        style="background:#c0392b;">Delete Selected Pages</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast" class="toast"><i class="fas fa-info-circle"></i> <span id="toastMsg"></span></div>
+
+        <footer class="main-footer">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h4>Connect</h4><a href="#" class="social twitter">Twitter</a><a href="#"
+                        class="social github">GitHub</a><a href="#" class="social instagram">Instagram</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4><a href="./privacy-policy.html" id="footerPrivacy">Privacy Policy</a><a
+                        href="./terms-of-use.html" id="footerTerms">Terms of Use</a><a 
+                        href="./privacy-settings.html" id="footerSettings">Privacy Settings</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-envelope"></i> <a
+                            href="mailto:garrickkogola@gmail.com">garrickkogola@gmail.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+25461640942">+254 616 409 42</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p id="dynamicGreeting">📖 Welcome, Guest</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="book.js"></script>
+</body>
+
+</html>
+
+```

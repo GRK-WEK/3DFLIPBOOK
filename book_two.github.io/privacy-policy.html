@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - FlipBook Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #e0dbc8 0%, #c9c2ab 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .legal-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .legal-header {
+            background: linear-gradient(135deg, #5e3a1f, #3e2510);
+            color: #ffecb3;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .legal-header i {
+            font-size: 48px;
+        }
+
+        .legal-header h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .legal-header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        .legal-content {
+            padding: 40px;
+        }
+
+        .legal-section {
+            margin-bottom: 30px;
+        }
+
+        .legal-section h2 {
+            color: #5e3a1f;
+            border-bottom: 2px solid #c9692e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .legal-section h3 {
+            color: #8b5a2b;
+            margin: 20px 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .legal-section p {
+            color: #3e2a1f;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .legal-section ul {
+            margin: 15px 0 15px 30px;
+            color: #3e2a1f;
+            line-height: 1.8;
+        }
+
+        .legal-section li {
+            margin-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: #fff5e8;
+            border-left: 4px solid #c9692e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .legal-footer {
+            background: #f5f0e0;
+            padding: 20px 40px;
+            text-align: center;
+            border-top: 1px solid #e2dbc9;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #c9692e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background: #e0842c;
+            transform: scale(1.02);
+        }
+
+        .last-updated {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #aa9f82;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e2dbc9;
+        }
+
+        ::selection {
+            color: rgb(64, 38, 10);
+            background-color: white;
+        }
+
+        @media (max-width: 768px) {
+            .legal-header { padding: 20px; }
+            .legal-content { padding: 25px; }
+            .legal-section h2 { font-size: 1.3rem; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="legal-container">
+        <div class="legal-header">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+                <h1>Privacy Policy</h1>
+                <p>How we protect your data</p>
+            </div>
+        </div>
+
+        <div class="legal-content">
+            <div class="highlight-box">
+                <i class="fas fa-info-circle" style="color: #c9692e; margin-right: 10px;"></i>
+                <strong>Last Updated:</strong> April 27, 2026 | Version 1.0
+            </div>
+
+            <div class="legal-section">
+                <h2>Privacy Policy for FlipBook Pro</h2>
+                <p>FlipBook Pro ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains our data practices when you use our digital journaling application.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>1. Information We Collect</h2>
+                
+                <h3>Account Information</h3>
+                <p>When you create an account, we collect:</p>
+                <ul>
+                    <li>Email address</li>
+                    <li>Full name (first name)</li>
+                    <li>Profile avatar (if provided)</li>
+                    <li>Password (encrypted)</li>
+                </ul>
+
+                <h3>Journal Content</h3>
+                <p>Your written journals and creations are stored in two locations:</p>
+                <ul>
+                    <li><strong>Local Storage:</strong> On your device's browser (private)</li>
+                    <li><strong>Cloud Storage:</strong> On Supabase servers (only if you save to cloud)</li>
+                </ul>
+
+                <h3>Usage Data</h3>
+                <p>We may collect non-personal analytics about how you use FlipBook Pro, including:</p>
+                <ul>
+                    <li>Features you use</li>
+                    <li>Pages created and edited</li>
+                    <li>Time spent in the application</li>
+                    <li>Errors encountered (for debugging)</li>
+                </ul>
+
+                <h3>Device Information</h3>
+                <p>We may automatically collect technical information:</p>
+                <ul>
+                    <li>Browser type and version</li>
+                    <li>Operating system</li>
+                    <li>IP address (for security)</li>
+                    <li>Device type (desktop, mobile, tablet)</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. How We Use Your Information</h2>
+                <p>We use the information we collect for:</p>
+                <ul>
+                    <li><strong>Service Delivery:</strong> To provide and maintain FlipBook Pro</li>
+                    <li><strong>Authentication:</strong> To securely verify your identity</li>
+                    <li><strong>Cloud Sync:</strong> To save your books to the cloud when requested</li>
+                    <li><strong>Improvements:</strong> To enhance features and fix bugs</li>
+                    <li><strong>Security:</strong> To detect and prevent fraud or misuse</li>
+                    <li><strong>Communication:</strong> To send updates or support messages (with your consent)</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. Data Storage & Security</h2>
+                
+                <h3>Local Storage</h3>
+                <p>Your journal entries are stored in your browser's local storage. This data:</p>
+                <ul>
+                    <li>Remains on YOUR device only</li>
+                    <li>Is NOT transmitted to our servers</li>
+                    <li>Is deleted if you clear your browser cache</li>
+                    <li>Is NOT encrypted (your device's security is your responsibility)</li>
+                </ul>
+
+                <h3>Cloud Storage</h3>
+                <p>If you choose to save books to the cloud, your data is stored on Supabase (supabase.co):</p>
+                <ul>
+                    <li>Data is encrypted in transit (HTTPS)</li>
+                    <li>We use Supabase's security infrastructure</li>
+                    <li>Only YOUR account can access your books</li>
+                    <li>You can delete cloud data anytime in Privacy Settings</li>
+                </ul>
+
+                <h3>Password Security</h3>
+                <p>Passwords are:</p>
+                <ul>
+                    <li>Encrypted using industry-standard algorithms</li>
+                    <li>Never stored in plain text</li>
+                    <li>Never shared with third parties</li>
+                    <li>Never visible to FlipBook Pro staff</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>4. Data Sharing & Third Parties</h2>
+                <p>We do NOT sell, trade, or rent your personal information. However:</p>
+                
+                <h3>Service Providers</h3>
+                <p>We may share data with trusted service providers who help us operate FlipBook Pro:</p>
+                <ul>
+                    <li><strong>Supabase:</strong> Cloud database and authentication</li>
+                    <li><strong>EmailJS:</strong> For newsletter subscriptions (only if you opt-in)</li>
+                    <li><strong>Analytics:</strong> Anonymous usage statistics (optional)</li>
+                </ul>
+
+                <h3>Legal Requirements</h3>
+                <p>We may disclose your information when required by law or to protect our rights, including:</p>
+                <ul>
+                    <li>Compliance with court orders</li>
+                    <li>Preventing fraud or illegal activities</li>
+                    <li>Protecting the safety of users</li>
+                </ul>
+
+                <h3>Business Transfers</h3>
+                <p>If FlipBook Pro is sold or merged, your data may be transferred as part of the transaction. You will be notified of any change in data practices.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>5. Your Privacy Rights</h2>
+                <p>You have the right to:</p>
+                <ul>
+                    <li><strong>Access:</strong> Request a copy of your personal data</li>
+                    <li><strong>Correction:</strong> Update or correct your information</li>
+                    <li><strong>Deletion:</strong> Request deletion of your account and data</li>
+                    <li><strong>Portability:</strong> Download your data in a portable format</li>
+                    <li><strong>Opt-Out:</strong> Disable analytics or communications</li>
+                </ul>
+                <p>To exercise these rights, contact us at <strong>garrickkogola@gmail.com</strong></p>
+            </div>
+
+            <div class="legal-section">
+                <h2>6. Cookies & Tracking</h2>
+                <p>FlipBook Pro uses:</p>
+                <ul>
+                    <li><strong>Session Cookies:</strong> To maintain your login session</li>
+                    <li><strong>Local Storage:</strong> To save your preferences</li>
+                    <li><strong>NO Third-Party Trackers:</strong> We do not use Google Analytics or similar services by default</li>
+                </ul>
+                <p>You can disable cookies in your browser settings, though this may affect functionality.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>7. Children's Privacy</h2>
+                <p>FlipBook Pro is not intended for children under 13. We do not knowingly collect data from children. If we become aware that a child under 13 has provided us with information, we will delete such data and terminate the child's account.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>8. International Data Transfers</h2>
+                <p>Your data may be stored on Supabase servers, which may be located outside your country. By using FlipBook Pro, you consent to the transfer of your information to countries other than your country of residence, which may have different data protection rules.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>9. Data Retention</h2>
+                <p>We retain your data for as long as necessary to provide FlipBook Pro:</p>
+                <ul>
+                    <li>Account data: Retained until you delete your account</li>
+                    <li>Journal entries: Retained until you delete them</li>
+                    <li>Analytics data: Retained for 12 months then aggregated</li>
+                    <li>Backup copies: Retained for 30 days after deletion</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>10. Changes to This Policy</h2>
+                <p>We may update this Privacy Policy from time to time. We will notify you of significant changes via email or by posting the updated policy on FlipBook Pro. Your continued use constitutes acceptance of the revised policy.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>11. Contact Us</h2>
+                <p>If you have privacy concerns or questions, please contact us:</p>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> Email: <strong>garrickkogola@gmail.com</strong></li>
+                    <li><i class="fab fa-github"></i> GitHub: <strong>github.com/GRK-WEK</strong></li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>12. California Privacy Rights (CCPA)</h2>
+                <p>If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA):</p>
+                <ul>
+                    <li>Right to know what personal information is collected</li>
+                    <li>Right to delete personal information</li>
+                    <li>Right to opt-out of the sale of personal information</li>
+                    <li>Right to non-discrimination for exercising your rights</li>
+                </ul>
+            </div>
+
+            <div class="last-updated">
+                <i class="far fa-calendar-alt"></i> Last Updated: April 27, 2026 | Version 1.0
+            </div>
+        </div>
+
+        <div class="legal-footer">
+            <button class="back-btn" onclick="window.location.href='./book.html'">
+                <i class="fas fa-arrow-left"></i> Back to FlipBook
+            </button>
+        </div>
+    </div>
+</body>
+</html>

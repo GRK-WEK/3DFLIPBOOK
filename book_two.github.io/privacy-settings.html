@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Settings - FlipBook Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Georgia', serif;
+            background: linear-gradient(135deg, #e0dbc8 0%, #c9c2ab 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .legal-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        ::selection {
+            color: rgb(64, 38, 10);
+            background-color: #ffffff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .legal-header {
+            background: linear-gradient(135deg, #5e3a1f, #3e2510);
+            color: #ffecb3;
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .legal-header i {
+            font-size: 48px;
+        }
+
+        .legal-header h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .legal-header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        .legal-content {
+            padding: 40px;
+        }
+
+        .settings-group {
+            background: #f9f7f0;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e2dbc9;
+        }
+
+        .settings-group h2 {
+            color: #5e3a1f;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2dbc9;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h3 {
+            color: #3e2a1f;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .setting-info p {
+            color: #aa9f82;
+            font-size: 0.85rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: #c9692e;
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .action-btn {
+            background: #c9692e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #e0842c;
+        }
+
+        .danger-btn {
+            background: #d9534f;
+        }
+
+        .danger-btn:hover {
+            background: #c9302c;
+        }
+
+        .data-management {
+            margin-top: 30px;
+            padding: 25px;
+            background: #fff5e8;
+            border-radius: 16px;
+            border: 1px solid #f0cba0;
+        }
+
+        .data-management h3 {
+            color: #5e3a1f;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .legal-footer {
+            background: #f5f0e0;
+            padding: 20px 40px;
+            text-align: center;
+            border-top: 1px solid #e2dbc9;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #c9692e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background: #e0842c;
+            transform: scale(1.02);
+        }
+
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e1a14;
+            color: #ffecb3;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .legal-header {
+                padding: 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .legal-content {
+                padding: 25px;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+
+<body>
+    <div class="legal-container">
+        <div class="legal-header">
+            <i class="fas fa-sliders-h"></i>
+            <div>
+                <h1>Privacy Settings</h1>
+                <p>Control your data and privacy preferences</p>
+            </div>
+        </div>
+        <div class="legal-content">
+            <!-- Privacy Controls -->
+            <div class="settings-group">
+                <h2><i class="fas fa-eye"></i> Privacy Controls</h2>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Analytics Collection</h3>
+                        <p>Allow anonymous usage data to help improve FlipBook Pro</p>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" id="analyticsToggle"><span
+                            class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Error Reporting</h3>
+                        <p>Automatically report crashes and errors</p>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" id="errorReportingToggle"><span
+                            class="toggle-slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Newsletter Subscription</h3>
+                        <p>Receive updates and tips via email</p>
+                    </div>
+                    <label class="toggle-switch"><input type="checkbox" id="newsletterToggle"><span
+                            class="toggle-slider"></span></label>
+                </div>
+            </div>
+
+            <!-- EmailJS Setup Instructions -->
+            <div class="info-box">
+                <i class="fas fa-info-circle" style="color: #2196f3; margin-right: 10px;"></i>
+                <strong>Newsletter Setup Required:</strong> To enable the newsletter, you need to set up EmailJS
+                credentials. See "Setup Guide" below.
+            </div>
+
+            <!-- Data Management -->
+            <div class="data-management">
+                <h3><i class="fas fa-trash-alt"></i> Data Actions</h3>
+                <p>These actions affect only the main FlipBook app. Manage your saved books and settings:</p>
+                <div class="button-group">
+                    <button class="action-btn" id="exportDataBtn"><i class="fas fa-download"></i> Export Main App
+                        Data</button>
+                    <button class="action-btn" id="clearCacheBtn"><i class="fas fa-broom"></i> Clear Main App
+                        Cache</button>
+                    <button class="action-btn danger-btn" id="deleteAllDataBtn"><i class="fas fa-trash"></i> Delete All
+                        App Data</button>
+                </div>
+            </div>
+
+            <!-- Current Status -->
+            <div class="data-management" style="margin-top: 20px;">
+                <h3><i class="fas fa-shield-alt"></i> Current Data Status</h3>
+                <p><strong>Local Storage Status:</strong> <span id="storageStatus">Checking...</span></p>
+                <p><strong>Data Stored (main app):</strong> <span id="dataSize">0 KB</span></p>
+                <p><strong>Last Backup:</strong> <span id="lastBackup">Never</span></p>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #666;"><i class="fas fa-lightbulb"
+                        style="color: #ff9800;"></i> <strong>Tip:</strong> Regularly export your work as backup. Local
+                    storage can be cleared if you clear browser cache.</p>
+            </div>
+
+            <!-- Setup Guide -->
+            <div class="settings-group">
+                <h2><i class="fas fa-cog"></i> EmailJS Setup Guide</h2>
+                <p>To enable newsletter subscriptions, follow these steps:</p>
+
+                <h3>Step 1: Create EmailJS Account</h3>
+                <ol style="margin-left: 20px; color: #3e2a1f; line-height: 1.8;">
+                    <li>Go to <strong><a href="https://www.emailjs.com/" target="_blank"
+                                style="color: #c9692e;">emailjs.com</a></strong></li>
+                    <li>Sign up for a free account</li>
+                    <li>Verify your email</li>
+                </ol>
+
+                <h3>Step 2: Connect Email Service</h3>
+                <ol style="margin-left: 20px; color: #3e2a1f; line-height: 1.8;">
+                    <li>In EmailJS dashboard, go to "Email Services"</li>
+                    <li>Click "Add Service" and select "Gmail" (or your preferred service)</li>
+                    <li>Follow the authentication steps</li>
+                    <li>Copy your <strong>Service ID</strong></li>
+                </ol>
+
+                <h3>Step 3: Create Email Template</h3>
+                <ol style="margin-left: 20px; color: #3e2a1f; line-height: 1.8;">
+                    <li>Go to "Email Templates"</li>
+                    <li>Click "Create New Template"</li>
+                    <li>Name it: <strong>flipbook_newsletter</strong></li>
+                    <li>Use this template structure:
+                        <pre
+                            style="background: #f5f0e0; padding: 10px; border-radius: 6px; margin-top: 10px; overflow-x: auto;">To: {{to_email}}
+Subject: {{subject}}
+
+{{message}}
+
+---
+FlipBook Pro Newsletter
+garrickkogola@gmail.com</pre>
+                    </li>
+                    <li>Click "Save" and copy the <strong>Template ID</strong></li>
+                </ol>
+
+                <h3>Step 4: Get Your Public Key</h3>
+                <ol style="margin-left: 20px; color: #3e2a1f; line-height: 1.8;">
+                    <li>In dashboard, click your profile → "Account"</li>
+                    <li>Find "Public Key" section</li>
+                    <li>Copy your <strong>Public Key</strong></li>
+                </ol>
+
+                <h3>Step 5: Add Credentials to Code</h3>
+                <p style="color: #3e2a1f; margin: 15px 0;">In your JavaScript file, replace the placeholder values:</p>
+                <pre style="background: #f5f0e0; padding: 15px; border-radius: 6px; overflow-x: auto;">// BEFORE:
+emailjs.init("YOUR_PUBLIC_KEY");
+
+// AFTER:
+emailjs.init("your_actual_public_key_here");
+
+// And in email send:
+await emailjs.send('YOUR_SERVICE_ID', 'flipbook_newsletter', { ... });
+// BECOMES:
+await emailjs.send('your_service_id', 'flipbook_newsletter', { ... });</pre>
+
+                <div class="info-box" style="margin-top: 15px;">
+                    <i class="fas fa-check" style="color: #4caf50; margin-right: 10px;"></i>
+                    <strong>Free Tier:</strong> EmailJS offers 200 emails/month free. Perfect for newsletters!
+                </div>
+            </div>
+
+            <!-- Alternative: No EmailJS -->
+            <div class="settings-group">
+                <h2><i class="fas fa-envelope"></i> Alternative: Manual Newsletter</h2>
+                <p>If you don't want to set up EmailJS, users can subscribe manually:</p>
+                <ol style="margin-left: 20px; color: #3e2a1f; line-height: 1.8;">
+                    <li>Collect emails in a spreadsheet</li>
+                    <li>Use a service like Mailchimp (free tier available)</li>
+                    <li>Send newsletters through your email provider</li>
+                </ol>
+            </div>
+
+            <!-- Legal Links -->
+            <div class="settings-group">
+                <h2><i class="fas fa-file-alt"></i> Legal Documents</h2>
+                <p>View our privacy and usage policies:</p>
+                <div class="button-group" style="margin-top: 10px;">
+                    <a href="./privacy-policy.html" class="action-btn"><i class="fas fa-shield-alt"></i> Privacy
+                        Policy</a>
+                    <a href="./terms-of-use.html" class="action-btn"><i class="fas fa-file-contract"></i> Terms of
+                        Use</a>
+                </div>
+            </div>
+        </div>
+        <div class="legal-footer">
+            <button class="back-btn" onclick="window.location.href='./book.html'">
+                <i class="fas fa-arrow-left"></i> Back to FlipBook
+            </button>
+        </div>
+    </div>
+    <div id="toastMessage" class="toast-message"></div>
+
+    <script>
+        // Initialize EmailJS - REQUIRES MANUAL SETUP
+        // Replace 'YOUR_PUBLIC_KEY' with actual key from EmailJS
+        // emailjs.init("YOUR_PUBLIC_KEY");
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastMessage');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
+        }
+
+        // Update storage info from main app's localStorage
+        function updateStorageInfo() {
+            let total = 0;
+            let itemCount = 0;
+
+            try {
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    const value = localStorage.getItem(key);
+                    if (key && value) {
+                        total += (key.length + value.length) * 2;
+                        itemCount++;
+                    }
+                }
+            } catch (error) {
+                console.error("Error reading localStorage:", error);
+            }
+
+            const sizeKB = (total / 1024).toFixed(2);
+            document.getElementById('dataSize').textContent = sizeKB + ' KB';
+            document.getElementById('storageStatus').textContent =
+                itemCount > 0 ? `Active (${itemCount} items)` : 'Empty';
+
+            const lastBackup = localStorage.getItem('lastBackup');
+            if (lastBackup) {
+                document.getElementById('lastBackup').textContent = lastBackup;
+            }
+        }
+
+        // Newsletter subscription - REQUIRES EMAILJS SETUP
+        document.getElementById('newsletterToggle').addEventListener('change', async function (e) {
+            if (e.target.checked) {
+                const email = prompt('Enter your email for FlipBook Pro newsletter:');
+
+                if (!email || !email.includes('@')) {
+                    showToast('❌ Invalid email address');
+                    e.target.checked = false;
+                    return;
+                }
+
+                // Check if EmailJS is configured
+                if (typeof emailjs === 'undefined' || !emailjs.username) {
+                    showToast('ℹ️ Newsletter setup incomplete. See Privacy Settings.');
+                    e.target.checked = false;
+                    return;
+                }
+
+                try {
+                    // Requires EmailJS configuration
+                    await emailjs.send('YOUR_SERVICE_ID', 'flipbook_newsletter', {
+                        to_email: email,
+                        subject: 'Welcome to FlipBook Pro Newsletter',
+                        message: 'Thank you for subscribing! You will receive updates and tips.'
+                    });
+
+                    showToast('✅ Subscribed! Check your email.');
+                    localStorage.setItem('newsletterEmail', email);
+                } catch (error) {
+                    console.error('EmailJS Error:', error);
+                    showToast('❌ Failed to subscribe. Ensure EmailJS is configured.');
+                    e.target.checked = false;
+                }
+            } else {
+                localStorage.removeItem('newsletterEmail');
+                showToast('Unsubscribed from newsletter');
+            }
+        });
+
+        // Export main app data
+        document.getElementById('exportDataBtn').addEventListener('click', () => {
+            const data = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                data[key] = localStorage.getItem(key);
+            }
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'flipbook_data_' + new Date().toISOString().slice(0, 10) + '.json';
+            link.click();
+
+            showToast('📥 Main app data exported!');
+            localStorage.setItem('lastBackup', new Date().toLocaleString());
+            updateStorageInfo();
+        });
+
+        // Clear main app cache
+        document.getElementById('clearCacheBtn').addEventListener('click', () => {
+            if (confirm('⚠️ This will clear cache but keep essential data. Continue?')) {
+                const keepKeys = ['flipbook_user', 'flipbook_autosave', 'darkMode', 'lastBackup', 'newsletterEmail'];
+                const keysToDelete = [];
+
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (!keepKeys.includes(key)) {
+                        keysToDelete.push(key);
+                    }
+                }
+
+                keysToDelete.forEach(key => localStorage.removeItem(key));
+                showToast(`🗑️ Cleared ${keysToDelete.length} cache items`);
+                updateStorageInfo();
+            }
+        });
+
+        // Delete ALL main app data
+        document.getElementById('deleteAllDataBtn').addEventListener('click', () => {
+            if (confirm('⚠️ WARNING: This will delete ALL saved books and settings!\nContinue?')) {
+                if (confirm('Are you ABSOLUTELY sure? This cannot be undone!')) {
+                    localStorage.clear();
+                    updateStorageInfo();
+                    showToast('🗑️ All app data deleted');
+                }
+            }
+        });
+
+        // Toggle handlers for preferences
+        document.getElementById('analyticsToggle').addEventListener('change', (e) => {
+            const status = e.target.checked ? 'enabled' : 'disabled';
+            showToast(`📊 Analytics ${status} (preference not saved)`);
+        });
+
+        document.getElementById('errorReportingToggle').addEventListener('change', (e) => {
+            const status = e.target.checked ? 'enabled' : 'disabled';
+            showToast(`🐛 Error reporting ${status} (preference not saved)`);
+        });
+
+        // Initialize on load
+        window.addEventListener('load', updateStorageInfo);
+    </script>
+</body>
+
+</html>
